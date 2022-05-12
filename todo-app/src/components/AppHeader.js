@@ -4,7 +4,7 @@ import Button, { SelectButton } from './Button';
 
 
 function AppHeader() {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(true);
   return (
     <div>
     <h1>hello from header</h1>
