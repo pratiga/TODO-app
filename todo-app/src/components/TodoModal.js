@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { useState} from 'react';
 //  import {CloseButton} from 'react-icons/md';
 import styles from '../styles/modules/modal.module.scss'
-import Button from './Button';
+import Button from './Button'; 
 
 
 function TodoModal({ modalOpen, setModalOpen}) {
+  const [title, setTitle] = useState('');
+  const [status, setStatus] = useState('incomplete');
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log({ title, status})
+  }
   return (
-      <div>
-      {modalOpen && (  
+      
+      modalOpen && (  
     <div className={styles.wrapper}>
     <div className={styles.container}>
     <div 
@@ -19,15 +26,26 @@ function TodoModal({ modalOpen, setModalOpen}) {
     >
      {/* <CloseButton />  */}
     </div>
-    <form className={styles.form}>
-        <h1 className={styles.formsTitle}> Add Task </h1>
+    <form className={styles.form} onSubmit={(e) => 
+        handleSubmit(e) }>
+        <h1 className={styles.formTitle}> Add Task </h1>
         <label htmlFor='title'>
         title
-        <input type="text" id="title"/>
+        <input
+         type="text"
+          id="title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          />
         </label>
         <label htmlFor='status' >
         status
-        <select name='status' id ="status">
+        <select
+         name='status'
+          id ="status"
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+          >
         <option value='incomplet'> incomplete</option>
         <option value='complet'> Complete</option>
         </select> 
@@ -36,12 +54,20 @@ function TodoModal({ modalOpen, setModalOpen}) {
         <Button type="submit" variant= "primary">
         Add task
         </Button>
+        <Button
+        type="button"
+        variant='secondary'
+        onClick={() => setModalOpen(false)}
+        onKeyDown={() => setModalOpen(false)}
+        >
+        Cancle
+        </Button>
         </div>
     </form>
     </div>
     </div>
-     )}
-      </div>
+     )
+      
   )
 }
 
