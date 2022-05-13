@@ -13,7 +13,7 @@ function Button({ children,type, variant="primary"}) {
     className={getClasses([
       styles.button,
       styles[`button--${buttonTypes[variant]}`],
-    ])}
+  ])}
     type={type === 'submit' ? 'submit' : 'button'}
      {...rest}
     >
