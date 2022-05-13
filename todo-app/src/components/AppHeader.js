@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import TodoModal from './TodoModal'
 import Button, { SelectButton } from './Button';
+import styles from '../styles/modules/app.module.scss'
 
 
 function AppHeader() {
   const [modalOpen, setModalOpen] = useState(true);
   return (
-    <div>
-    <h1>hello from header</h1>
-    <Button  variant="primary" onClick={() =>
+    <div className={styles.appHeader}>
+    
+    <Button type='submit' variant="primary" onClick={() =>
      setModalOpen(true)}>
     Add Task
     </Button>
