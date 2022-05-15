@@ -1,4 +1,5 @@
 import React from 'react';
+import {createRoot} from 'react-dom/client';
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
 import './index.css';
@@ -10,7 +11,8 @@ import'@fontsource/poppins/600.css';
 import'@fontsource/poppins/700.css';
 import reportWebVitals from './reportWebVitals';
 import { store } from './app/store'
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const rootElement = document.getElementById('root');
+const root = createRoot(rootElement);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
