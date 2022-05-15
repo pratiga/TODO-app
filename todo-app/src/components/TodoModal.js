@@ -1,6 +1,6 @@
 import React, { useState} from 'react';
 import toast from 'react-hot-toast';
-import { addTodo } from '../slice/todoSlice';
+import todo, { addTodo, updateTodo } from '../slice/todoSlice';
 //  import {CloseButton} from 'react-icons/md';
 import styles from '../styles/modules/modal.module.scss'
 import Button from './Button'; 
@@ -9,13 +9,18 @@ import { v4 as uuid} from 'uuid';
 
 
 
-function TodoModal({ modalOpen, setModalOpen}) {
+function TodoModal({ type, modalOpen, setModalOpen}) {
   const [title, setTitle] = useState('');
   const [status, setStatus] = useState('incomplete');
   const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (title === ''){
+      toast.error('please enter a title');
+      return
+    }
     if(title && status) {
+      if (type === 'add'){
       dispatch(
         addTodo({
         id:uuid(),
@@ -26,6 +31,20 @@ function TodoModal({ modalOpen, setModalOpen}) {
       );
       toast.success('Task Added Sucessfully');
       setModalOpen(false);
+    }
+      if( type === 'update') {
+        if (todo.title !== title || todo.status !== status){
+          dispatch(
+            updateTodo({
+              ...todo,
+              title,
+              status,
+            })
+          )
+        } else {
+          toast.error('No Change Made');
+        }
+      }
     } else {
       toast.error("Title shouldn't be empty");
     }
@@ -45,7 +64,9 @@ function TodoModal({ modalOpen, setModalOpen}) {
     </div>
     <form className={styles.form} onSubmit={(e) => 
         handleSubmit(e) }>
-        <h1 className={styles.formTitle}> Add Task </h1>
+        <h1 className={styles.formTitle}> 
+        {type === 'add' ? 'Add' : 'Update'} TODO
+         </h1>
         <label htmlFor='title'>
         title
         <input
@@ -55,8 +76,8 @@ function TodoModal({ modalOpen, setModalOpen}) {
           onChange={(e) => setTitle(e.target.value)}
           />
         </label>
-        <label htmlFor='status' >
-        status
+        <label htmlFor='type' >
+        Status
         <select
          name='status'
           id ="status"
@@ -68,8 +89,10 @@ function TodoModal({ modalOpen, setModalOpen}) {
         </select> 
         </label>
         <div className={styles.buttonContainer}>
-        <Button type="submit" variant= "primary">
-        Add task
+        <Button 
+         type="submit"
+         variant= "primary">
+        {type === 'add'? 'AddTask': 'Update Task'}
         </Button>
         <Button
         type="button"
@@ -87,5 +110,6 @@ function TodoModal({ modalOpen, setModalOpen}) {
       
   )
 }
+
 
 export default TodoModal
