@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import toast from 'react-hot-toast';
 import  { addTodo, updateTodo } from '../slice/todoSlice';
-//  import {CloseButton} from 'react-icons/md';
+import { MdOutlineClose } from 'react-icons/md';
 import styles from '../styles/modules/modal.module.scss'
 import Button from './Button'; 
 import { useDispatch } from 'react-redux';
@@ -18,8 +18,11 @@ function TodoModal({ type, modalOpen, setModalOpen,todo}) {
     if (type === 'update' && todo) {
       setTitle(todo.title);
       setStatus(todo.status);
+    } else {
+      setTitle('');
+      setStatus('incomplete');
     }
-  }, [type, todo]);
+  }, [type, todo,modalOpen]);
   
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -38,7 +41,7 @@ function TodoModal({ type, modalOpen, setModalOpen,todo}) {
       })
       );
       toast.success('Task Added Sucessfully');
-      setModalOpen(false);
+      // setModalOpen(false);
       
     }
       if( type === 'update') {
@@ -52,7 +55,7 @@ function TodoModal({ type, modalOpen, setModalOpen,todo}) {
           )
         } else {
           toast.error('No Change Made');
-          return;
+          // return;
         }
       }
       setModalOpen(false);
@@ -69,7 +72,7 @@ function TodoModal({ type, modalOpen, setModalOpen,todo}) {
     tabIndex={0}
     role="button"
     >
-     {/* <CloseButton />  */}
+      <MdOutlineClose />  
     </div>
     <form className={styles.form} onSubmit={(e) => 
         handleSubmit(e) }>
