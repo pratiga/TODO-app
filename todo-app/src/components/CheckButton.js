@@ -1,4 +1,4 @@
- import { motion } from 'framer-motion';
+ import { motion, useMotionValue, useTransform } from 'framer-motion';
 import React from 'react';
 import styles from '../styles/modules/todoitem.module.scss';
 
@@ -27,15 +27,15 @@ const boxVariant = {
   }
 }
 
-function CheckButton({checked, setChecked }) {
+function CheckButton({checked, handleChecked }) {
+  const pathLength = useMotionValue(0);
+  const opacity = useTransform(pathLength,[0.05, 0.15], [0,1]);
   return (
     <motion.div
     className={styles.svgBox}
     variants = {boxVariant}
     animate = {checked ? 'checked': 'unchecked'}
-    onClick = {() => {
-      console.log('checked clicked')
-    }}
+    onClick = {handleChecked}
     >
       <motion.svg
         className={styles.svg}
@@ -45,6 +45,8 @@ function CheckButton({checked, setChecked }) {
       >
         <motion.path
          variants = {checkVariants}
+         animate = {checked ? 'checked': 'unchecked'}
+         style = {{pathLength, opacity}}
           fill="none"
           strokeMiterlimit="10"
           strokeWidth="6"
