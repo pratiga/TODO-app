@@ -53,9 +53,10 @@
     font-size: 1.4rem;
     color: var(--black-2);
 
-    --completed {
+    &--completed {
         text-decoration: line-through;
         opacity: 0.7;
+        background-color: aquamarine;
     }
 }
 .time {
