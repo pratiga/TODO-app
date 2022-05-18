@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-// import { useDispatch } from 'react-redux';
+ import { useDispatch,useSelector } from 'react-redux';
+ import {updateFilterStatus} from '../slice/todoSlice';
 import TodoModal from './TodoModal'
 import Button, { SelectButton } from './Button';
 import styles from '../styles/modules/app.module.scss'
@@ -7,18 +8,19 @@ import styles from '../styles/modules/app.module.scss'
 
 function AppHeader() {
   const [modalOpen, setModalOpen] = useState(false);
-  // const dispatch = useDispatch()
-  const handleUpdate = () => {
-    setModalOpen(true)
+  const filterStatus = useSelector((state) => state.todo.filterStatus);
+  
+   const dispatch = useDispatch();
+   
+  const updateFilter = (e) => {
+    dispatch(updateFilterStatus(e.target.value));
 }
  
   return (
     <div className={styles.appHeader}>
       <Button>
       <div 
-      onClick={() => handleUpdate()}
-      onKeyDown={() => handleUpdate()}
-      
+      onClick={() => setModalOpen(true)}
       >
          Add Task
       </div>
@@ -27,8 +29,8 @@ function AppHeader() {
       
       <SelectButton
         id="status"
-        //onChange={(e) => updateFilter(e)}
-       // value={filterStatus}
+        value={filterStatus}
+        onChange = {updateFilter}
       >
         <option value="all">All</option>
         <option value="incomplete">Incomplete</option>
